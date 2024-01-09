@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">ProjectManagement</string>
+    <string name="project_management">Project Management</string>
+    <string name="let_s_get_started">Let\'s Get Started</string>
+    <string name="Intro_Description">Collaborate and Plan Across Multiple Devices on Project Management\'s Minimalistic Interface</string>
+    <string name="sign_in">SIGN IN</string>
+    <string name="sign_up">SIGN UP</string>
+</resources>
