@@ -9,7 +9,6 @@ import com.example.projectmanagement.R
 import com.example.projectmanagement.databinding.ActivitySignUpBinding
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
-import java.net.PasswordAuthentication
 
 @Suppress("DEPRECATION")
 class SignUpActivity : BaseActivity() {

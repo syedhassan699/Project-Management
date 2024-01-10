@@ -2,7 +2,6 @@ package com.example.projectmanagement.activtities
 
 import android.annotation.SuppressLint
 import android.app.Dialog
-import android.graphics.Color
 import android.os.Bundle
 import android.os.Handler
 import android.widget.Toast

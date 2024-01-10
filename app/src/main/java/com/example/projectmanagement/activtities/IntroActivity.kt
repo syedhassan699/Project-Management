@@ -3,7 +3,6 @@
 package com.example.projectmanagement.activtities
 
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.WindowManager
 import com.example.projectmanagement.databinding.ActivityIntroBinding
