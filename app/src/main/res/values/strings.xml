@@ -5,4 +5,8 @@
     <string name="Intro_Description">Collaborate and Plan Across Multiple Devices on Project Management\'s Minimalistic Interface</string>
     <string name="sign_in">SIGN IN</string>
     <string name="sign_up">SIGN UP</string>
+    <string name="password">Password</string>
+    <string name="email">Email</string>
+    <string name="name">Name</string>
+    <string name="please_wait">Please_wait</string>
 </resources>

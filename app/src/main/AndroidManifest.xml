@@ -13,10 +13,19 @@
         android:theme="@style/Theme.ProjectManagement"
         tools:targetApi="31">
         <activity
-            android:name=".IntroActivity"
+            android:name=".activtities.BaseActivity"
             android:exported="false" />
         <activity
-            android:name=".SplashActivity"
+            android:name=".activtities.SignInActivity"
+            android:exported="false" />
+        <activity
+            android:name=".activtities.SignUpActivity"
+            android:exported="false" />
+        <activity
+            android:name=".activtities.IntroActivity"
+            android:exported="false" />
+        <activity
+            android:name=".activtities.SplashActivity"
             android:exported="true"
             android:screenOrientation="portrait"
             tools:ignore="LockedOrientationActivity">
@@ -27,12 +36,10 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".MainActivity"
+            android:name=".activtities.MainActivity"
             android:exported="true"
             android:screenOrientation="portrait"
-            tools:ignore="LockedOrientationActivity">
-
-        </activity>
+            tools:ignore="LockedOrientationActivity" />
     </application>
 
 </manifest>

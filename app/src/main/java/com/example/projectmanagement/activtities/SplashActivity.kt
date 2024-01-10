@@ -1,4 +1,4 @@
-package com.example.projectmanagement
+package com.example.projectmanagement.activtities
 
 import android.annotation.SuppressLint
 import android.content.Intent
@@ -27,7 +27,7 @@ class SplashActivity : AppCompatActivity() {
         binding?.SplashScreenText?.typeface = typeFace
 
         Handler().postDelayed({
-            startActivity(Intent(this,IntroActivity::class.java))
+            startActivity(Intent(this, IntroActivity::class.java))
             finish()
         }, 2500)
 
