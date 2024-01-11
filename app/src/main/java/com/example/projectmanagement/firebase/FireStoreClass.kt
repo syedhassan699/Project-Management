@@ -9,21 +9,16 @@ import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.SetOptions
 
 class FirestoreClass {
-    private val mFireStore = FirebaseFirestore.getInstance()
-    fun registerUser(activity: SignUpActivity, userInfo: User) {
-
+    private val mFireStore=FirebaseFirestore.getInstance()
+    fun registerUser(activity: SignUpActivity,userInfo:User){
         mFireStore.collection(Constants.USERS)
             .document(getCurrentUserID())
             .set(userInfo, SetOptions.merge())
             .addOnSuccessListener {
                 activity.userRegisteredSuccess()
-            }
-            .addOnFailureListener { e ->
-                Log.e(
-                    activity.javaClass.simpleName,
-                    "Error writing document",
-                    e
-                )
+            }.addOnFailureListener{
+                    e->
+                Log.e(activity.javaClass.simpleName,"Error writing document")
             }
     }
     private fun getCurrentUserID(): String {

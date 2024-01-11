@@ -1,0 +1,43 @@
+Index: app/src/main/java/com/example/projectmanagement/firebase/FireStoreClass.kt
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package com.example.projectmanagement.firebase\r\n\r\nimport android.util.Log\r\nimport com.example.projectmanagement.activtities.SignUpActivity\r\nimport com.example.projectmanagement.models.User\r\nimport com.example.projectmanagement.utils.Constants\r\nimport com.google.firebase.auth.FirebaseAuth\r\nimport com.google.firebase.firestore.FirebaseFirestore\r\nimport com.google.firebase.firestore.SetOptions\r\n\r\nclass FirestoreClass {\r\n    private val mFireStore = FirebaseFirestore.getInstance()\r\n    fun registerUser(activity: SignUpActivity, userInfo: User) {\r\n\r\n        mFireStore.collection(Constants.USERS)\r\n            .document(getCurrentUserID())\r\n            .set(userInfo, SetOptions.merge())\r\n            .addOnSuccessListener {\r\n                activity.userRegisteredSuccess()\r\n            }\r\n            .addOnFailureListener { e ->\r\n                Log.e(\r\n                    activity.javaClass.simpleName,\r\n                    \"Error writing document\",\r\n                    e\r\n                )\r\n            }\r\n    }\r\n    private fun getCurrentUserID(): String {\r\n        return FirebaseAuth.getInstance().currentUser!!.uid\r\n    }\r\n}
+===================================================================
+diff --git a/app/src/main/java/com/example/projectmanagement/firebase/FireStoreClass.kt b/app/src/main/java/com/example/projectmanagement/firebase/FireStoreClass.kt
+--- a/app/src/main/java/com/example/projectmanagement/firebase/FireStoreClass.kt	
++++ b/app/src/main/java/com/example/projectmanagement/firebase/FireStoreClass.kt	
+@@ -1,6 +1,7 @@
+ package com.example.projectmanagement.firebase
+ 
+ import android.util.Log
++import com.example.projectmanagement.activtities.SignInActivity
+ import com.example.projectmanagement.activtities.SignUpActivity
+ import com.example.projectmanagement.models.User
+ import com.example.projectmanagement.utils.Constants
+@@ -11,22 +12,16 @@
+ class FirestoreClass {
+     private val mFireStore = FirebaseFirestore.getInstance()
+     fun registerUser(activity: SignUpActivity, userInfo: User) {
+-
+         mFireStore.collection(Constants.USERS)
+             .document(getCurrentUserID())
+             .set(userInfo, SetOptions.merge())
+             .addOnSuccessListener {
+                 activity.userRegisteredSuccess()
+             }
+-            .addOnFailureListener { e ->
+-                Log.e(
+-                    activity.javaClass.simpleName,
+-                    "Error writing document",
+-                    e
+-                )
+-            }
+     }
+-    private fun getCurrentUserID(): String {
++    
++
++    fun getCurrentUserID(): String {
+         return FirebaseAuth.getInstance().currentUser!!.uid
+     }
+ }
+\ No newline at end of file

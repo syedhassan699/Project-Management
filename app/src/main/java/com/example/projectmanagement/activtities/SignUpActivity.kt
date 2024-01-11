@@ -47,34 +47,29 @@ private var binding : ActivitySignUpBinding? = null
         binding = null
     }
 
-    private fun registerUser() {
-        // Here we get the text from editText and trim the space
-        val name=binding?.tvName?.text.toString().trim { it <= ' ' }
-        val email=binding?.tvEmail?.text.toString().trim { it <= ' ' }
-        val password=binding?.tvPassword?.text.toString().trim { it <= ' ' }
+    fun registerUser(){
+        val name = binding?.tvName?.text.toString().trim{it<=' '}
+        val email= binding?.tvEmail?.text.toString().trim{it<=' '}
+        val password= binding?.tvPassword?.text.toString().trim{it<=' '}
 
-        if (validateForm(name, email, password)) {
+        if (validateForm(name,email,password)){
             showProgressDialog(resources.getString(R.string.please_wait))
-            FirebaseAuth.getInstance().createUserWithEmailAndPassword(email, password)
+            FirebaseAuth.getInstance()
+                .createUserWithEmailAndPassword(email,password)
                 .addOnCompleteListener { task ->
                     if (task.isSuccessful) {
                         val firebaseUser: FirebaseUser = task.result!!.user!!
                         val registeredEmail = firebaseUser.email!!
-                        val user = User(
-                            firebaseUser.uid, name, registeredEmail
-                        )
-                        FirestoreClass().registerUser(this@SignUpActivity, user)
+                        val user= User(firebaseUser.uid,name,registeredEmail)
+                        FirestoreClass().registerUser(this,user)
+                        finish()
                     } else {
-                        Toast.makeText(
-                            this@SignUpActivity,
-                            task.exception!!.message,
-                            Toast.LENGTH_SHORT
-                        ).show()
+                        Toast.makeText(this, "Registration Failed", Toast.LENGTH_SHORT)
+                            .show()
                     }
                 }
         }
     }
-
     private fun validateForm(name:String,email:String,password:String):Boolean{
         return when{
             TextUtils.isEmpty(name)->{
@@ -100,7 +95,6 @@ private var binding : ActivitySignUpBinding? = null
                     " you have successfully registered ",
             Toast.LENGTH_LONG
         ).show()
-        hideProgressDialog()
         FirebaseAuth.getInstance().signOut()
         finish()
     }
