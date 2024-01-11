@@ -3,7 +3,6 @@ package com.example.projectmanagement.activtities
 import android.content.Intent
 import android.os.Bundle
 import android.text.TextUtils
-import android.util.Log
 import android.view.WindowManager.LayoutParams.FLAG_FULLSCREEN
 import android.widget.Toast
 import com.example.projectmanagement.R

@@ -33,7 +33,7 @@ data class User(
 
     companion object CREATOR : Parcelable.Creator<User> {
         override fun createFromParcel(parcel: Parcel): User {
-            return User(parcel)
+            return com.example.projectmanagement.models.User(parcel)
         }
 
         override fun newArray(size: Int): Array<User?> {

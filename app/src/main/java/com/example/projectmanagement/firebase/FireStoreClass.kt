@@ -1,7 +1,6 @@
 package com.example.projectmanagement.firebase
 
 import android.util.Log
-import android.widget.Toast
 import com.example.projectmanagement.activtities.SignUpActivity
 import com.example.projectmanagement.models.User
 import com.example.projectmanagement.utils.Constants
