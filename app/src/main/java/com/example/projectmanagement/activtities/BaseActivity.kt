@@ -30,6 +30,7 @@ open class BaseActivity : AppCompatActivity() {
         mProgressDialog = Dialog(this)
 
         val dialogBinding = DailogCustomBinding.inflate(layoutInflater)
+        mProgressDialog.setContentView(dialogBinding.root)
         dialogBinding.tvBase.text = text
 
         mProgressDialog.show()

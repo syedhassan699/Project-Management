@@ -53,4 +53,5 @@ dependencies {
 
     // Added for Fire Base
     implementation("com.google.firebase:firebase-auth:22.3.0")
+    implementation("com.google.firebase:firebase-firestore:24.10.0")
 }

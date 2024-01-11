@@ -9,7 +9,7 @@
     android:background="@drawable/ic_background">
 
     <androidx.appcompat.widget.Toolbar
-        android:id="@+id/toolbar_signup"
+        android:id="@+id/toolbar_signIn"
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
         app:title="@string/sign_in"
@@ -27,7 +27,7 @@
         android:id="@+id/tv_signup"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:layout_constraintTop_toBottomOf="@id/toolbar_signup"
+        app:layout_constraintTop_toBottomOf="@id/toolbar_signIn"
         android:gravity="center"
         android:layout_marginTop="20dp"
         app:layout_constraintStart_toStartOf="parent"
