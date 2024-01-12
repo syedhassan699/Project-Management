@@ -8,6 +8,7 @@ import android.os.Bundle
 import android.os.Handler
 import android.view.WindowManager.LayoutParams.*
 import com.example.projectmanagement.databinding.ActivitySplashBinding
+import com.example.projectmanagement.firebase.FirestoreClass
 
 @Suppress("DEPRECATION")
 @SuppressLint("CustomSplashScreen")
@@ -27,9 +28,17 @@ class SplashActivity : AppCompatActivity() {
         binding?.SplashScreenText?.typeface = typeFace
 
         Handler().postDelayed({
-            startActivity(Intent(this, IntroActivity::class.java))
+            var currentUserId = FirestoreClass().getCurrentUserID()
+
+            if (currentUserId.isNotEmpty()){
+                startActivity(Intent(this,MainActivity::class.java))
+            }
+            else{
+                startActivity(Intent(this, IntroActivity::class.java))
+            }
+
             finish()
-        }, 2500)
+        }, 1500)
 
     }
 

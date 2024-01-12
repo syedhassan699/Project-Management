@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">ProjectManagement</string>
+    <string name="app_name">Project Management</string>
     <string name="project_management">Project Management</string>
     <string name="let_s_get_started">Let\'s Get Started</string>
     <string name="Intro_Description">Collaborate and Plan Across Multiple Devices on Project Management\'s Minimalistic Interface</string>
@@ -9,4 +9,8 @@
     <string name="email">Email</string>
     <string name="name">Name</string>
     <string name="please_wait">Please wait</string>
+    <string name="description">Description</string>
+    <string name="my_profile">My Profile</string>
+    <string name="sign_out">Sign Out</string>
+    <string name="img">img</string>
 </resources>

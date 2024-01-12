@@ -7,6 +7,7 @@ import android.view.WindowManager.LayoutParams.FLAG_FULLSCREEN
 import android.widget.Toast
 import com.example.projectmanagement.R
 import com.example.projectmanagement.databinding.ActivitySignInBinding
+import com.example.projectmanagement.models.User
 import com.google.firebase.auth.FirebaseAuth
 
 @Suppress("DEPRECATION")
@@ -39,7 +40,6 @@ class SignInActivity : BaseActivity() {
         }
         binding?.toolbarSignIn?.setNavigationOnClickListener{onBackPressed()}
     }
-
     private fun signInRegisteredUser(){
         val email:String = binding?.tvEmailSignIn?.text.toString().trim{ it <= ' ' }
         val password:String = binding?.tvPasswordSignIn?.text.toString().trim{ it <= ' ' }
@@ -64,7 +64,6 @@ class SignInActivity : BaseActivity() {
                 }
         }
     }
-
     private fun validateForm(email:String,password:String):Boolean{
         return if (TextUtils.isEmpty(email)){
                 showErrorSnackBar("Please enter your Email.")
@@ -78,5 +77,10 @@ class SignInActivity : BaseActivity() {
         else {
             true
         }
+    }
+    fun signInSuccess(user:User){
+        hideProgressDialog()
+        startActivity(Intent(this,MainActivity::class.java))
+        finish()
     }
 }
