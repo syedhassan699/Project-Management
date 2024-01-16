@@ -13,4 +13,6 @@
     <string name="my_profile">My Profile</string>
     <string name="sign_out">Sign Out</string>
     <string name="img">img</string>
+    <string name="update">Update</string>
+    <string name="mobile">Mobile</string>
 </resources>
