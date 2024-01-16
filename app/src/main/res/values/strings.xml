@@ -15,4 +15,7 @@
     <string name="img">img</string>
     <string name="update">Update</string>
     <string name="mobile">Mobile</string>
+    <string name="board_name">Board Name</string>
+    <string name="create">CREATE</string>
+    <string name="action_button">Action Button</string>
 </resources>

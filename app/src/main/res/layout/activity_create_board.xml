@@ -1,21 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
-
 <androidx.constraintlayout.widget.ConstraintLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".activtities.MyProfileActivity"
+    tools:context=".activtities.CreateBoardActivity"
     android:background="@drawable/ic_background">
 
     <androidx.appcompat.widget.Toolbar
         android:background="@color/colorPrimary"
-        android:id="@+id/toolbar_update"
+        android:id="@+id/toolbar_create_board"
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
         app:titleTextColor="@color/white"
-        app:title="My Profile"
+        app:title="Create Board"
         tools:ignore="MissingConstraints">
 
 
@@ -38,7 +37,7 @@
         android:layout_marginTop="100dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/toolbar_update"
+        app:layout_constraintTop_toBottomOf="@+id/toolbar_create_board"
         >
         <LinearLayout
             android:layout_width="match_parent"
@@ -47,42 +46,22 @@
             android:orientation="vertical">
 
             <de.hdodenhof.circleimageview.CircleImageView
-                android:id="@+id/iv_profile_user_img"
+                android:id="@+id/iv_board_img"
                 android:layout_width="100dp"
                 android:layout_height="100dp"
                 android:layout_gravity="center"
-                android:src="@drawable/ic_user_place_holder"
-                />
+                android:src="@drawable/ic_board_place_holder"
+                tools:ignore="ImageContrastCheck" />
 
             <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/et_name"
+                android:id="@+id/et_board_name"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="20dp"
-                android:hint="@string/name"
+                android:hint="@string/board_name"
                 android:textColorHint="@color/black"
                 tools:ignore="TouchTargetSizeCheck" />
 
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/et_email"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:focusableInTouchMode="false"
-                android:layout_marginTop="20dp"
-                android:hint="@string/email"
-                android:inputType="textEmailAddress"
-                android:textColorHint="@color/black"
-                tools:ignore="TouchTargetSizeCheck" />
-
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/et_mobile"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="20dp"
-                android:hint="@string/mobile"
-                android:inputType="number"
-                android:minHeight="48dp"
-                android:textColorHint="@color/black" />
 
             <TextView
                 android:id="@+id/btn_update"
@@ -96,7 +75,7 @@
                 android:foreground="?attr/selectableItemBackground"
                 android:gravity="center"
                 android:padding="10dp"
-                android:text="@string/update"
+                android:text="@string/create"
                 android:textColor="@color/white"
                 android:textSize="20sp"
                 app:layout_constraintEnd_toEndOf="parent"

@@ -17,6 +17,7 @@ import com.example.projectmanagement.R
 import com.example.projectmanagement.databinding.ActivityMainBinding
 import com.example.projectmanagement.firebase.FirestoreClass
 import com.example.projectmanagement.models.User
+import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.navigation.NavigationView
 import com.google.firebase.auth.FirebaseAuth
 import de.hdodenhof.circleimageview.CircleImageView
@@ -26,6 +27,7 @@ import de.hdodenhof.circleimageview.CircleImageView
 class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedListener{
 
     private var binding : ActivityMainBinding? = null
+
     companion object{
         const val MY_PROFILE_REQUEST_CODE = 11
     }
@@ -41,6 +43,11 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
         )
         binding?.navView?.setNavigationItemSelectedListener (this)
         FirestoreClass().loadUserData(this)
+
+        val fb = findViewById<FloatingActionButton>(R.id.floating_action)
+        fb.setOnClickListener{
+            startActivity(Intent(this,CreateBoardActivity::class.java))
+        }
     }
 
     private fun setupActionBar(){
