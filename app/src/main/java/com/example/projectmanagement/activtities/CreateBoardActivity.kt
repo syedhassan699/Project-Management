@@ -7,25 +7,36 @@ import android.content.Intent
 import android.content.pm.PackageManager
 import android.net.Uri
 import android.os.Bundle
+import android.util.Log
 import android.widget.Toast
-import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import com.bumptech.glide.Glide
 import com.example.projectmanagement.R
 import com.example.projectmanagement.databinding.ActivityCreateBoardBinding
+import com.example.projectmanagement.firebase.FirestoreClass
+import com.example.projectmanagement.models.Board
 import com.example.projectmanagement.utils.Constants
+import com.example.projectmanagement.utils.getFileExtension
 import com.example.projectmanagement.utils.showImageChooser
+import com.google.firebase.storage.FirebaseStorage
+import com.google.firebase.storage.StorageReference
 
 @Suppress("DEPRECATION")
-class CreateBoardActivity : AppCompatActivity() {
+class CreateBoardActivity : BaseActivity() {
     private var mSelectedImageFileUri: Uri? = null
     private var binding:ActivityCreateBoardBinding? = null
+    private lateinit var mUserName:String
+    private var mBoardImageURL: String = ""
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityCreateBoardBinding.inflate(layoutInflater)
         setContentView(binding?.root)
         setupActionBar()
+
+        if (intent.hasExtra(Constants.NAME)){
+            mUserName = intent.getStringExtra(Constants.NAME).toString()
+        }
 
         binding?.ivBoardImg?.setOnClickListener {
             if (ContextCompat.checkSelfPermission(
@@ -41,6 +52,14 @@ class CreateBoardActivity : AppCompatActivity() {
                     arrayOf(Manifest.permission.READ_EXTERNAL_STORAGE),
                     Constants.READ_STORAGE_PERMISSION_CODE
                 )
+            }
+            binding?.btnCreate?.setOnClickListener{
+                if (mSelectedImageFileUri!=null){
+                    uploadBoardImage()
+                }else{
+                    showProgressDialog(resources.getString(R.string.please_wait))
+                    createBoard()
+                }
             }
         }
     }
@@ -85,5 +104,52 @@ class CreateBoardActivity : AppCompatActivity() {
                 .placeholder(R.drawable.ic_board_place_holder)
                 .into(binding!!.ivBoardImg)
         }
+    }
+    private fun createBoard(){
+        val assignedUsersArrayList:ArrayList<String> = ArrayList()
+        assignedUsersArrayList.add(getCurrentUserId())
+        var board = Board(
+            binding?.etBoardName?.text.toString(),
+            mBoardImageURL,
+            mUserName,
+            assignedUsersArrayList
+        )
+
+        FirestoreClass().createBoard(this,board)
+
+    }
+    private fun uploadBoardImage(){
+        showProgressDialog(resources.getString(R.string.please_wait ))
+
+        if (mSelectedImageFileUri != null) {
+            val sRef: StorageReference = FirebaseStorage.getInstance()
+                .reference.child(
+                    "BOARD_IMAGE" +
+                            System.currentTimeMillis() + "." +
+                            getFileExtension(this@CreateBoardActivity,mSelectedImageFileUri)
+                )
+            sRef.putFile(mSelectedImageFileUri!!).addOnSuccessListener { taskSnapshot ->
+                Log.i(
+                    "Board Image Url",
+                    taskSnapshot.metadata!!.reference!!.downloadUrl.toString()
+                )
+                taskSnapshot.metadata!!.reference!!
+                    .downloadUrl.addOnSuccessListener { uri ->
+                        Log.i("Downloadable Image Uri", uri.toString())
+                        mBoardImageURL = uri.toString()
+                       createBoard()
+                    }
+            }.addOnFailureListener { exception ->
+                Toast.makeText(
+                    this, exception.message,
+                    Toast.LENGTH_LONG
+                ).show()
+                hideProgressDialog()
+            }
+        }
+    }
+    fun boardCreatedSuccessfully(){
+        hideProgressDialog()
+        finish()
     }
 }

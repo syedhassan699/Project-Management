@@ -5,11 +5,13 @@ import android.content.Intent
 import android.net.Uri
 import android.provider.MediaStore
 import android.webkit.MimeTypeMap
-import com.example.projectmanagement.activtities.MyProfileActivity
 import com.example.projectmanagement.utils.Constants.PICK_IMAGE_REQUEST_CODE
 
 object Constants {
-    const val USERS: String = "users"
+    const val USERS= "users"
+    const val BOARDS = "boards"
+
+
     const val NAME = "name"
     const val MOBILE = "mobile"
     const val IMAGE = "image"
@@ -22,7 +24,7 @@ fun showImageChooser(activity: Activity){
     activity.startActivityForResult(galleryIntent, PICK_IMAGE_REQUEST_CODE)
 }
 
-fun getFileExtension(activity: MyProfileActivity, uri: Uri?): String?{
+fun getFileExtension(activity: Activity, uri: Uri?): String?{
     return MimeTypeMap.getSingleton()
         .getExtensionFromMimeType(activity.contentResolver.getType(uri!!))
 }

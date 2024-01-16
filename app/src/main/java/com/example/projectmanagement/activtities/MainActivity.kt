@@ -17,6 +17,7 @@ import com.example.projectmanagement.R
 import com.example.projectmanagement.databinding.ActivityMainBinding
 import com.example.projectmanagement.firebase.FirestoreClass
 import com.example.projectmanagement.models.User
+import com.example.projectmanagement.utils.Constants
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.navigation.NavigationView
 import com.google.firebase.auth.FirebaseAuth
@@ -27,6 +28,7 @@ import de.hdodenhof.circleimageview.CircleImageView
 class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedListener{
 
     private var binding : ActivityMainBinding? = null
+    private lateinit var mUserName:String
 
     companion object{
         const val MY_PROFILE_REQUEST_CODE = 11
@@ -46,7 +48,9 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
 
         val fb = findViewById<FloatingActionButton>(R.id.floating_action)
         fb.setOnClickListener{
-            startActivity(Intent(this,CreateBoardActivity::class.java))
+            val intent = Intent(this,CreateBoardActivity::class.java)
+            intent.putExtra(Constants.NAME,mUserName)
+            startActivity(intent)
         }
     }
 
@@ -101,6 +105,9 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
     }
     @SuppressLint("SuspiciousIndentation")
     fun updateNavigationUserDetail(user: User){
+
+        mUserName = user.name
+
     val img = findViewById<CircleImageView>(R.id.nav_user_image)
     val tv = findViewById<TextView>(R.id.tv_username)
         Glide

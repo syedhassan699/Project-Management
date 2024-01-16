@@ -129,7 +129,7 @@ class MyProfileActivity :BaseActivity() {
                 .reference.child(
                     "USER_IMAGE" +
                             System.currentTimeMillis() + "." +
-                            getFileExtension(this,mSelectedImageFileUri)
+                            getFileExtension(this@MyProfileActivity,mSelectedImageFileUri)
                 )
             sRef.putFile(mSelectedImageFileUri!!).addOnSuccessListener { taskSnapshot ->
                 Log.i(
