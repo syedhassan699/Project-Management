@@ -18,4 +18,6 @@
     <string name="board_name">Board Name</string>
     <string name="create">CREATE</string>
     <string name="action_button">Action Button</string>
+    <string name="no_boards_available">No Boards Available</string>
+    <string name="contentdescription">contentDescription</string>
 </resources>

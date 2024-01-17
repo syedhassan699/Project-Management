@@ -7,15 +7,20 @@ import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.MenuItem
+import android.view.View
 import android.view.WindowManager
 import android.widget.TextView
 import androidx.appcompat.widget.Toolbar
 import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.projectmanagement.R
+import com.example.projectmanagement.adaptors.BoardItemAdaptor
 import com.example.projectmanagement.databinding.ActivityMainBinding
 import com.example.projectmanagement.firebase.FirestoreClass
+import com.example.projectmanagement.models.Board
 import com.example.projectmanagement.models.User
 import com.example.projectmanagement.utils.Constants
 import com.google.android.material.floatingactionbutton.FloatingActionButton
@@ -28,6 +33,7 @@ import de.hdodenhof.circleimageview.CircleImageView
 class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedListener{
 
     private var binding : ActivityMainBinding? = null
+
     private lateinit var mUserName:String
 
     companion object{
@@ -44,7 +50,7 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
             WindowManager.LayoutParams.FLAG_FULLSCREEN
         )
         binding?.navView?.setNavigationItemSelectedListener (this)
-        FirestoreClass().loadUserData(this)
+        FirestoreClass().loadUserData(this,true)
 
         val fb = findViewById<FloatingActionButton>(R.id.floating_action)
         fb.setOnClickListener{
@@ -104,7 +110,7 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
         return true
     }
     @SuppressLint("SuspiciousIndentation")
-    fun updateNavigationUserDetail(user: User){
+    fun updateNavigationUserDetail(user: User, readBoardList: Boolean){
 
         mUserName = user.name
 
@@ -118,6 +124,11 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
             .into(img)
 
         tv.text = user.name
+
+        if (readBoardList){
+            showProgressDialog(resources.getString(R.string.please_wait))
+            FirestoreClass().getBoardList(this)
+        }
     }
 
     @Deprecated("Deprecated in Java")
@@ -129,4 +140,22 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
             Log.e("Cancelled","Loading is Cancelled")
         }
     }
+    fun populateBoardListToUI(boardList:ArrayList<Board>){
+       hideProgressDialog()
+        val rvBoardList=findViewById<RecyclerView>(R.id.rv_board_list)
+        val tvNoRecordsAvailable=findViewById<TextView>(R.id.tv_no_board)
+        if(boardList.size >0){
+            rvBoardList?.visibility= View.VISIBLE
+            tvNoRecordsAvailable.visibility= View.GONE
+            rvBoardList.layoutManager= LinearLayoutManager(this)
+            rvBoardList.setHasFixedSize(true)
+            val adapter= BoardItemAdaptor(this,boardList)
+            rvBoardList.adapter=adapter
+        }
+        else{
+            rvBoardList?.visibility= View.GONE
+            tvNoRecordsAvailable.visibility= View.VISIBLE
+        }
+    }
+
 }

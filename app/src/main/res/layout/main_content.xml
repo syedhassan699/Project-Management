@@ -1,34 +1,43 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
+<LinearLayout
+    android:layout_marginTop="70dp"
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".activtities.MainActivity">
+    tools:context=".activtities.MainActivity"
+    android:background="@drawable/ic_background"
+    android:gravity="center"
+    android:orientation="vertical">
 
-    <androidx.appcompat.widget.Toolbar
-        android:id="@+id/toolbar_main"
+    <androidx.cardview.widget.CardView
+        android:padding="10dp"
         android:layout_width="match_parent"
-        android:layout_height="?attr/actionBarSize"
-        android:background="@color/colorPrimary"
-        tools:ignore="MissingConstraints">
+        android:layout_height="match_parent"
+        android:background="@color/white"
+        android:elevation="10dp"
+        app:cardCornerRadius="10dp"
+       >
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rv_board_list"
+            android:layout_height="match_parent"
+            android:layout_width="match_parent"
+            android:visibility="gone"  />
 
 
         <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textStyle="bold"
-            android:textSize="20sp"/>
-    </androidx.appcompat.widget.Toolbar>
+            android:id="@+id/tv_no_board"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:text="@string/no_boards_available"
+            android:textColor="@color/secondary_text_color"
+            android:textSize="16sp"
+            tools:ignore="TextContrastCheck" />
+        
+    </androidx.cardview.widget.CardView>
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Hello World!"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+</LinearLayout>
