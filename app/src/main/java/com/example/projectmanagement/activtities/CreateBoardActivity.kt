@@ -8,6 +8,7 @@ import android.content.pm.PackageManager
 import android.net.Uri
 import android.os.Bundle
 import android.util.Log
+import android.view.WindowManager
 import android.widget.Toast
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
@@ -17,8 +18,6 @@ import com.example.projectmanagement.databinding.ActivityCreateBoardBinding
 import com.example.projectmanagement.firebase.FirestoreClass
 import com.example.projectmanagement.models.Board
 import com.example.projectmanagement.utils.Constants
-import com.example.projectmanagement.utils.getFileExtension
-import com.example.projectmanagement.utils.showImageChooser
 import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.StorageReference
 
@@ -32,6 +31,11 @@ class CreateBoardActivity : BaseActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityCreateBoardBinding.inflate(layoutInflater)
         setContentView(binding?.root)
+
+        window.setFlags(
+            WindowManager.LayoutParams.FLAG_FULLSCREEN,
+            WindowManager.LayoutParams.FLAG_FULLSCREEN
+        )
         setupActionBar()
 
         if (intent.hasExtra(Constants.NAME)){
@@ -45,7 +49,7 @@ class CreateBoardActivity : BaseActivity() {
                 )
                 == PackageManager.PERMISSION_GRANTED
             ) {
-                showImageChooser(this)
+                Constants.showImageChooser(this)
             } else {
                 ActivityCompat.requestPermissions(
                     this,
@@ -81,7 +85,7 @@ class CreateBoardActivity : BaseActivity() {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
         if (requestCode == Constants.READ_STORAGE_PERMISSION_CODE){
             if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED){
-                showImageChooser(this)
+                Constants.showImageChooser(this)
             }else{
                 Toast.makeText(this, "Oop's You Denied for permission", Toast.LENGTH_LONG).show()
             }
@@ -108,7 +112,7 @@ class CreateBoardActivity : BaseActivity() {
     private fun createBoard(){
         val assignedUsersArrayList:ArrayList<String> = ArrayList()
         assignedUsersArrayList.add(getCurrentUserId())
-        var board = Board(
+        val board = Board(
             binding?.etBoardName?.text.toString(),
             mBoardImageURL,
             mUserName,
@@ -118,15 +122,14 @@ class CreateBoardActivity : BaseActivity() {
         FirestoreClass().createBoard(this,board)
 
     }
-    private fun uploadBoardImage(){
+   private fun uploadBoardImage(){
         showProgressDialog(resources.getString(R.string.please_wait ))
 
-        if (mSelectedImageFileUri != null) {
             val sRef: StorageReference = FirebaseStorage.getInstance()
                 .reference.child(
                     "BOARD_IMAGE" +
                             System.currentTimeMillis() + "." +
-                            getFileExtension(this@CreateBoardActivity,mSelectedImageFileUri)
+                            Constants.getFileExtension(this@CreateBoardActivity,mSelectedImageFileUri)
                 )
             sRef.putFile(mSelectedImageFileUri!!).addOnSuccessListener { taskSnapshot ->
                 Log.i(
@@ -146,10 +149,10 @@ class CreateBoardActivity : BaseActivity() {
                 ).show()
                 hideProgressDialog()
             }
-        }
-    }
+   }
     fun boardCreatedSuccessfully(){
         hideProgressDialog()
+        setResult(Activity.RESULT_OK)
         finish()
     }
 }

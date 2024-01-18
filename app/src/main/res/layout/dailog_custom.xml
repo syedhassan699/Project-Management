@@ -10,7 +10,9 @@
         android:id="@+id/pb_base"
         android:layout_width="50dp"
         android:layout_height="50dp"
-        android:layout_marginEnd="10dp"/>
+        android:layout_marginEnd="10dp"
+        android:indeterminateTint="@color/colorPrimary" />
+
 
     <TextView
         android:id="@+id/tv_base"

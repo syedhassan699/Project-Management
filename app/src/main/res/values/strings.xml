@@ -20,4 +20,11 @@
     <string name="action_button">Action Button</string>
     <string name="no_boards_available">No Boards Available</string>
     <string name="contentdescription">contentDescription</string>
+
+    <string name="action_add_list">Add List</string>
+    <string name="hint_list_name">List Name</string>
+    <string name="action_add_card">Add Card</string>
+    <string name="hint_card_name">Card Name</string>
+    <string name="add_list">Add List</string>
+    <string name="user_name">User name</string>
 </resources>

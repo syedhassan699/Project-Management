@@ -8,6 +8,7 @@ import android.content.pm.PackageManager
 import android.net.Uri
 import android.os.Bundle
 import android.util.Log
+import android.view.WindowManager
 import android.widget.Toast
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
@@ -19,8 +20,6 @@ import com.example.projectmanagement.models.User
 import com.example.projectmanagement.utils.Constants
 import com.example.projectmanagement.utils.Constants.PICK_IMAGE_REQUEST_CODE
 import com.example.projectmanagement.utils.Constants.READ_STORAGE_PERMISSION_CODE
-import com.example.projectmanagement.utils.getFileExtension
-import com.example.projectmanagement.utils.showImageChooser
 import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.StorageReference
 
@@ -35,6 +34,12 @@ class MyProfileActivity :BaseActivity() {
         super.onCreate(savedInstanceState)
         bindingMP = ActivityMyProfileBinding.inflate(layoutInflater)
         setContentView(bindingMP?.root)
+
+        window.setFlags(
+            WindowManager.LayoutParams.FLAG_FULLSCREEN,
+            WindowManager.LayoutParams.FLAG_FULLSCREEN
+        )
+
         setupActionBar()
         FirestoreClass().loadUserData(this)
 
@@ -42,7 +47,7 @@ class MyProfileActivity :BaseActivity() {
             if (ContextCompat.checkSelfPermission(this,
                     Manifest.permission.READ_EXTERNAL_STORAGE)
                 == PackageManager.PERMISSION_GRANTED){
-                showImageChooser(this)
+                Constants.showImageChooser(this)
             }else{
                 ActivityCompat.requestPermissions(this,
                     arrayOf(Manifest.permission.READ_EXTERNAL_STORAGE),
@@ -70,7 +75,7 @@ class MyProfileActivity :BaseActivity() {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
         if (requestCode == READ_STORAGE_PERMISSION_CODE){
             if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED){
-                showImageChooser(this)
+                Constants.showImageChooser(this)
             }else{
                 Toast.makeText(this, "Oop's You Denied for permission", Toast.LENGTH_LONG).show()
             }
@@ -129,7 +134,7 @@ class MyProfileActivity :BaseActivity() {
                 .reference.child(
                     "USER_IMAGE" +
                             System.currentTimeMillis() + "." +
-                            getFileExtension(this@MyProfileActivity,mSelectedImageFileUri)
+                            Constants.getFileExtension(this@MyProfileActivity,mSelectedImageFileUri)
                 )
             sRef.putFile(mSelectedImageFileUri!!).addOnSuccessListener { taskSnapshot ->
                 Log.i(

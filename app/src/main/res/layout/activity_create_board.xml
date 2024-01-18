@@ -71,8 +71,6 @@
                 android:layout_marginTop="25dp"
                 android:layout_marginEnd="10dp"
                 android:background="@drawable/shape_button_rounded"
-                android:clickable="true"
-                android:foreground="?attr/selectableItemBackground"
                 android:gravity="center"
                 android:padding="10dp"
                 android:text="@string/create"
@@ -80,7 +78,7 @@
                 android:textSize="20sp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                tools:ignore="KeyboardInaccessibleWidget,MissingConstraints,TextContrastCheck,TouchTargetSizeCheck" />
+                tools:ignore="TextContrastCheck" />
         </LinearLayout>
     </androidx.cardview.widget.CardView>
 

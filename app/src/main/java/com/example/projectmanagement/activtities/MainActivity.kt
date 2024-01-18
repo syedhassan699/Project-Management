@@ -38,6 +38,7 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
 
     companion object{
         const val MY_PROFILE_REQUEST_CODE = 11
+        const val CREATE_BOARD_REQUEST_CODE = 12
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -56,7 +57,7 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
         fb.setOnClickListener{
             val intent = Intent(this,CreateBoardActivity::class.java)
             intent.putExtra(Constants.NAME,mUserName)
-            startActivity(intent)
+            startActivityForResult(intent, CREATE_BOARD_REQUEST_CODE)
         }
     }
 
@@ -136,7 +137,10 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
         super.onActivityResult(requestCode, resultCode, data)
         if (resultCode == Activity.RESULT_OK && requestCode == MY_PROFILE_REQUEST_CODE){
             FirestoreClass().loadUserData(this)
-        }else{
+        }else if (resultCode == Activity.RESULT_OK && requestCode == CREATE_BOARD_REQUEST_CODE){
+            FirestoreClass().getBoardList(this)
+        }
+        else{
             Log.e("Cancelled","Loading is Cancelled")
         }
     }
@@ -151,11 +155,22 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
             rvBoardList.setHasFixedSize(true)
             val adapter= BoardItemAdaptor(this,boardList)
             rvBoardList.adapter=adapter
+
+            adapter.setOnClickListener(object :BoardItemAdaptor.OnClickListener{
+                override fun onClick(position: Int, model: Board) {
+                    val intent = Intent(this@MainActivity,TaskListActivity::class.java)
+                    intent.putExtra(Constants.DOCUMENT_ID,model.documentId)
+                    startActivity(intent)
+                }
+
+            })
         }
         else{
             rvBoardList?.visibility= View.GONE
             tvNoRecordsAvailable.visibility= View.VISIBLE
         }
     }
+
+
 
 }
