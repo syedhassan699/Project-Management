@@ -1,13 +1,13 @@
 {
   "project_info": {
-    "project_number": "763848386469",
-    "project_id": "projectmanage-c0e52",
-    "storage_bucket": "projectmanage-c0e52.appspot.com"
+    "project_number": "400392086805",
+    "project_id": "project-3d6f8",
+    "storage_bucket": "project-3d6f8.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:763848386469:android:e70e14ba014ee9f1a9ea4c",
+        "mobilesdk_app_id": "1:400392086805:android:d167fa6a71676a9f48b51c",
         "android_client_info": {
           "package_name": "com.example.projectmanagement"
         }
@@ -15,7 +15,7 @@
       "oauth_client": [],
       "api_key": [
         {
-          "current_key": "AIzaSyAF3GHqHx3iS_KkiP0BAy8LjG2WPu9NGBk"
+          "current_key": "AIzaSyAwzuv7bpkOgjGLcwlHPDW60BWYqCgXs5o"
         }
       ],
       "services": {

@@ -128,8 +128,6 @@ class FirestoreClass {
                 val board = document.toObject(Board::class.java)!!
                 board.documentId = document.id
                 activity.boardDetails(board)
-
-                activity.boardDetails(document.toObject(Board::class.java)!!)
             }.addOnFailureListener{
                     e->
                 activity.hideProgressDialog()
