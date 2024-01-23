@@ -12,4 +12,3 @@
             android:title="@string/sign_out" />
     </group>
 </menu>
-    <!--END-->

@@ -8,6 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.LinearLayout
 import android.widget.Toast
+import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.projectmanagement.activtities.TaskListActivity
 import com.example.projectmanagement.databinding.ItemTaskBinding
@@ -18,8 +19,7 @@ open class  TaskListItemAdaptor
      private var list: ArrayList<Task>):
     RecyclerView.Adapter<RecyclerView.ViewHolder>()
 {
-    class MyViewHolder(val binding:ItemTaskBinding): RecyclerView.ViewHolder(binding.root) {
-    }
+    class MyViewHolder(val binding:ItemTaskBinding): RecyclerView.ViewHolder(binding.root)
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         val binding=ItemTaskBinding.inflate(LayoutInflater.from(parent.context),
             parent, false)
@@ -90,6 +90,32 @@ open class  TaskListItemAdaptor
             holder.binding.ibDeleteList.setOnClickListener{
                 deleteRecordAlertDialog(position,model.title)
             }
+
+            holder.binding.tvAddCard.setOnClickListener{
+                holder.binding.tvAddCard.visibility = View.GONE
+                holder.binding.cvAddCard.visibility = View.VISIBLE
+            }
+
+            holder.binding.ibCloseCardName.setOnClickListener{
+                holder.binding.tvAddCard.visibility = View.VISIBLE
+                holder.binding.cvAddCard.visibility = View.GONE
+            }
+
+            holder.binding.ibDoneCardName.setOnClickListener {
+                val cardName = holder.binding.etCardName.text.toString()
+                if (cardName.isNotEmpty()){
+                    if (context is TaskListActivity){
+                        context.addCardToTaskList(position,cardName)
+                    }
+                }else{
+                    Toast.makeText(context, "Please Enter Card Name", Toast.LENGTH_SHORT).show()
+                }
+            }
+
+            holder.binding.rvCardList.layoutManager = LinearLayoutManager(context)
+            holder.binding.rvCardList.setHasFixedSize(true)
+            val adaptor = CardListItemAdaptor(context,model.cards)
+            holder.binding.rvCardList.adapter = adaptor
 
         }
     }
