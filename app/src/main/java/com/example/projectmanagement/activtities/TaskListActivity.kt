@@ -170,4 +170,11 @@ class TaskListActivity : BaseActivity() {
         binding?.rvTaskList?.adapter = adapter
 
     }
+
+    fun updateCardsInTaskList(taskListPosition:Int,cards:ArrayList<Card>){
+        mBoardDetails.taskList.removeAt(mBoardDetails.taskList.size -1)
+        mBoardDetails.taskList[taskListPosition].cards = cards
+        showProgressDialog("Please Wait")
+        FirestoreClass().addUpdateTaskList(this,mBoardDetails)
+    }
 }
