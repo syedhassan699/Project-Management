@@ -1,5 +1,6 @@
 package com.example.projectmanagement.adaptors
 
+import android.annotation.SuppressLint
 import android.app.AlertDialog
 import android.content.Context
 import android.content.res.Resources
@@ -33,7 +34,7 @@ open class  TaskListItemAdaptor
     override fun getItemCount(): Int {
         return list.size
     }
-    override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: RecyclerView.ViewHolder, @SuppressLint("RecyclerView") position: Int) {
         val model = list[position]
         if (holder is MyViewHolder){
             if (position == list.size-1){
@@ -117,6 +118,16 @@ open class  TaskListItemAdaptor
             val adaptor = CardListItemAdaptor(context,model.cards)
             holder.binding.rvCardList.adapter = adaptor
 
+            adaptor.setOnClickListener(
+                object: CardListItemAdaptor.OnClickListener{
+                    override fun onClick(cardPosition: Int){
+                        if (context is TaskListActivity){
+                            context.cardDetails(position, cardPosition)
+                        }
+                    }
+                }
+            )
+
         }
     }
 
@@ -131,13 +142,13 @@ open class  TaskListItemAdaptor
         builder.setIcon(android.R.drawable.ic_dialog_alert)
 
         builder.setPositiveButton("Yes"){
-            dialogInterface , which -> dialogInterface.dismiss()
+                dialogInterface, _ -> dialogInterface.dismiss()
             if (context is TaskListActivity){
                 context.deleteTaskList(position)
             }
         }
         builder.setNegativeButton("No"){
-             dialogInterface , which -> dialogInterface.dismiss()
+                dialogInterface, _ -> dialogInterface.dismiss()
             }
         val alertDialog:AlertDialog = builder.create()
         alertDialog.setCancelable(false)

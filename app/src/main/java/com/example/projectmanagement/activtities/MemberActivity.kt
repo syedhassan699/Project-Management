@@ -1,5 +1,6 @@
 package com.example.projectmanagement.activtities
 
+import android.app.Activity
 import android.app.Dialog
 import android.os.Bundle
 import android.view.Menu
@@ -20,6 +21,7 @@ import com.example.projectmanagement.utils.Constants
 class MemberActivity : BaseActivity() {
     private lateinit var mBoardDetails: Board
     private lateinit var mAssignedMembersList:ArrayList<User>
+    private var anyChangesMade = false
     private var binding: ActivityMemberBinding? = null
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -101,7 +103,17 @@ class MemberActivity : BaseActivity() {
     fun memberAssignSuccess(user:User){
         hideProgressDialog()
         mAssignedMembersList.add(user)
-        setUpMembersList(mAssignedMembersList)
 
+        anyChangesMade = true
+        setUpMembersList(mAssignedMembersList)
+    }
+
+    @Deprecated("Deprecated in Java",
+        ReplaceWith("super.onBackPressed()"))
+    override fun onBackPressed() {
+        if (anyChangesMade){
+            setResult(Activity.RESULT_OK)
+        }
+        super.onBackPressed()
     }
 }

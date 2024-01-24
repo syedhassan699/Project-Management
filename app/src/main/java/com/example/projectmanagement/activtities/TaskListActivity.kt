@@ -1,7 +1,9 @@
 package com.example.projectmanagement.activtities
 
+import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import android.view.WindowManager
@@ -18,7 +20,13 @@ import com.example.projectmanagement.utils.Constants
 @Suppress("DEPRECATION")
 class TaskListActivity : BaseActivity() {
     private lateinit var mBoardDetails:Board
+    private lateinit var mBoardDocumentId:String
     private var binding:ActivityTaskListBinding? = null
+
+    companion object{
+        const val MEMBERS_REQUEST_CODE = 13
+        const val CARD_DETAILS_REQUEST_CODE = 14
+    }
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityTaskListBinding.inflate(layoutInflater)
@@ -29,12 +37,23 @@ class TaskListActivity : BaseActivity() {
             WindowManager.LayoutParams.FLAG_FULLSCREEN
         )
 
-        var boardDocumentId = ""
         if (intent.hasExtra(Constants.DOCUMENT_ID)){
-            boardDocumentId = intent.getStringExtra(Constants.DOCUMENT_ID).toString()
+            mBoardDocumentId = intent.getStringExtra(Constants.DOCUMENT_ID).toString()
         }
         showProgressDialog(resources.getString(R.string.please_wait))
-        FirestoreClass().getBoardDetails(this,boardDocumentId)
+        FirestoreClass().getBoardDetails(this,mBoardDocumentId)
+    }
+
+    @Deprecated("Deprecated in Java",
+    ReplaceWith("super.onActivityResult(requestCode, resultCode, data)"))
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (resultCode == Activity.RESULT_OK && requestCode == MEMBERS_REQUEST_CODE || requestCode == CARD_DETAILS_REQUEST_CODE){
+            showProgressDialog(resources.getString(R.string.please_wait))
+            FirestoreClass().getBoardDetails(this,mBoardDetails.documentId)
+        }else{
+            Log.e("Cancelled","Cancelled")
+        }
     }
 
     private fun setupActionBar(){
@@ -123,12 +142,18 @@ class TaskListActivity : BaseActivity() {
             R.id.action_members ->{
               val intent = Intent(this,MemberActivity::class.java)
                 intent.putExtra(Constants.BOARD_DETAIL,mBoardDetails)
-                startActivity(intent)
+                startActivityForResult(intent, MEMBERS_REQUEST_CODE)
+                return true
             }
         }
         return super.onOptionsItemSelected(item)
     }
 
-
-
+    fun cardDetails(taskListPosition:Int,cardPosition:Int){
+        val intent = Intent(this, CardDetailsActivity::class.java)
+        intent.putExtra(Constants.BOARD_DETAIL,mBoardDetails)
+        intent.putExtra(Constants.TASK_LIST_ITEM_POSITION,taskListPosition)
+        intent.putExtra(Constants.CARD_LIST_ITEM_POSITION,cardPosition)
+        startActivityForResult(intent, CARD_DETAILS_REQUEST_CODE)
+    }
 }

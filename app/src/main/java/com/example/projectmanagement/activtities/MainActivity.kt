@@ -11,6 +11,7 @@ import android.view.View
 import android.view.WindowManager
 import android.widget.TextView
 import androidx.appcompat.widget.Toolbar
+import androidx.core.content.ContextCompat
 import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -50,6 +51,8 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
             WindowManager.LayoutParams.FLAG_FULLSCREEN,
             WindowManager.LayoutParams.FLAG_FULLSCREEN
         )
+
+
         binding?.navView?.setNavigationItemSelectedListener (this)
         FirestoreClass().loadUserData(this,true)
 
