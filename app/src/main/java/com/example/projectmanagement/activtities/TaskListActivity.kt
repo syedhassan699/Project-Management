@@ -15,12 +15,14 @@ import com.example.projectmanagement.firebase.FirestoreClass
 import com.example.projectmanagement.models.Board
 import com.example.projectmanagement.models.Card
 import com.example.projectmanagement.models.Task
+import com.example.projectmanagement.models.User
 import com.example.projectmanagement.utils.Constants
 
 @Suppress("DEPRECATION")
 class TaskListActivity : BaseActivity() {
     private lateinit var mBoardDetails:Board
     private lateinit var mBoardDocumentId:String
+    lateinit var mAssignedMemberDetailList :ArrayList<User>
     private var binding:ActivityTaskListBinding? = null
 
     companion object{
@@ -71,14 +73,10 @@ class TaskListActivity : BaseActivity() {
         hideProgressDialog()
         setupActionBar()
 
-        val addTaskList = Task(resources.getString(R.string.add_list))
-        board.taskList.add(addTaskList)
-        binding?.rvTaskList?.layoutManager = LinearLayoutManager(this,
-            LinearLayoutManager.HORIZONTAL,false)
-        binding?.rvTaskList?.setHasFixedSize(true)
 
-        val adapter = TaskListItemAdaptor(this,board.taskList)
-        binding?.rvTaskList?.adapter = adapter
+
+        showProgressDialog("Please Wait")
+            FirestoreClass().getAssignedMembersListDetails(this,mBoardDetails.assignedTo)
     }
 
     fun addUpdateTaskListSuccess(){
@@ -154,6 +152,22 @@ class TaskListActivity : BaseActivity() {
         intent.putExtra(Constants.BOARD_DETAIL,mBoardDetails)
         intent.putExtra(Constants.TASK_LIST_ITEM_POSITION,taskListPosition)
         intent.putExtra(Constants.CARD_LIST_ITEM_POSITION,cardPosition)
+        intent.putExtra(Constants.BOARDS_MEMBER_LIST,mAssignedMemberDetailList)
         startActivityForResult(intent, CARD_DETAILS_REQUEST_CODE)
+    }
+
+    fun boardMembersDetailList(list: ArrayList<User>){
+        mAssignedMemberDetailList = list
+        hideProgressDialog()
+
+        val addTaskList = Task(resources.getString(R.string.add_list))
+        mBoardDetails.taskList.add(addTaskList)
+        binding?.rvTaskList?.layoutManager = LinearLayoutManager(this,
+            LinearLayoutManager.HORIZONTAL,false)
+        binding?.rvTaskList?.setHasFixedSize(true)
+
+        val adapter = TaskListItemAdaptor(this,mBoardDetails.taskList)
+        binding?.rvTaskList?.adapter = adapter
+
     }
 }

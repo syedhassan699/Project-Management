@@ -20,6 +20,9 @@ object Constants {
     const val BOARD_DETAIL =  "boardDetail"
     const val ID =  "id"
     const val EMAIL = "email"
+    const val BOARDS_MEMBER_LIST = "boardMemberList"
+    const val SELECT:String = "Select"
+    const val UNSELECT:String = "UnSelect"
 
 
     const val READ_STORAGE_PERMISSION_CODE = 1
