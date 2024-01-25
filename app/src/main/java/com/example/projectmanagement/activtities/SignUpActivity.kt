@@ -22,11 +22,6 @@ private var binding : ActivitySignUpBinding? = null
         setContentView(binding?.root)
         setupActionBar()
 
-        window.setFlags(
-            WindowManager.LayoutParams.FLAG_FULLSCREEN,
-            WindowManager.LayoutParams.FLAG_FULLSCREEN
-        )
-
     }
     @SuppressLint("SuspiciousIndentation")
     private fun setupActionBar(){

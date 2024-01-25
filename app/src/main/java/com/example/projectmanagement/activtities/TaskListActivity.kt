@@ -34,11 +34,6 @@ class TaskListActivity : BaseActivity() {
         binding = ActivityTaskListBinding.inflate(layoutInflater)
         setContentView(binding?.root)
 
-        window.setFlags(
-            WindowManager.LayoutParams.FLAG_FULLSCREEN,
-            WindowManager.LayoutParams.FLAG_FULLSCREEN
-        )
-
         if (intent.hasExtra(Constants.DOCUMENT_ID)){
             mBoardDocumentId = intent.getStringExtra(Constants.DOCUMENT_ID).toString()
         }

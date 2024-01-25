@@ -65,4 +65,7 @@ dependencies {
 
     //FireStorage
     implementation("com.google.firebase:firebase-storage:20.3.0")
+
+    //Notification
+    implementation("com.google.firebase:firebase-messaging:20.1.1")
 }

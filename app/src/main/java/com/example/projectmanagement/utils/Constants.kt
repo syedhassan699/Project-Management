@@ -23,6 +23,18 @@ object Constants {
     const val BOARDS_MEMBER_LIST = "boardMemberList"
     const val SELECT:String = "Select"
     const val UNSELECT:String = "UnSelect"
+    const val PROJECT_PREFERENCE = "ProjectPrefs"
+    const val FCM_TOKEN_UPDATED = "fcmTokenUpdated"
+    const val FCM_TOKEN = "fcmToken"
+
+    const val FCM_BASE_URL:String = "https://fcm.googleapis.com/fcm/send"
+    const val FCM_AUTHORIZATION:String = "authorization"
+    const val FCM_KEY:String = "key"
+    const val FCM_SERVER_KEY:String = "AAAAXTk6ZRU:APA91bGY5gT5sdecgKx4fQSzGUSz3A_PPHdgpdeK2mDZTcZy7xtnds7UJ-zdWN-dsbLBcdWFFloBgk6it_FJ7jrXxJFe4bkz8W_iByEQunyvQK5g5SuV9wXfVpLr3wItiN8qkNIyqKSA"
+    const val FCM_KEY_TITLE:String = "title"
+    const val FCM_KEY_MESSAGE:String = "message"
+    const val FCM_KEY_DATA:String = "data"
+    const val FCM_KEY_TO:String = "to"
 
 
     const val READ_STORAGE_PERMISSION_CODE = 1

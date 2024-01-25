@@ -26,10 +26,6 @@ class SignInActivity : BaseActivity() {
 
         auth  = FirebaseAuth.getInstance()
 
-        window.setFlags(
-            FLAG_FULLSCREEN,
-            FLAG_FULLSCREEN
-        )
     }
     private fun setupActionBar(){
         setSupportActionBar(binding?.toolbarSignIn)

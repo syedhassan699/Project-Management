@@ -28,7 +28,7 @@ class SplashActivity : AppCompatActivity() {
         binding?.SplashScreenText?.typeface = typeFace
 
         Handler().postDelayed({
-            var currentUserId = FirestoreClass().getCurrentUserID()
+            val currentUserId = FirestoreClass().getCurrentUserID()
 
             if (currentUserId.isNotEmpty()){
                 startActivity(Intent(this,MainActivity::class.java))
@@ -36,7 +36,6 @@ class SplashActivity : AppCompatActivity() {
             else{
                 startActivity(Intent(this, IntroActivity::class.java))
             }
-
             finish()
         }, 1500)
 

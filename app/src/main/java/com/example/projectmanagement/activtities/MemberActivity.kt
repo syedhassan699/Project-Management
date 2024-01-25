@@ -1,7 +1,11 @@
+@file:Suppress("DEPRECATION")
+
 package com.example.projectmanagement.activtities
 
+import android.annotation.SuppressLint
 import android.app.Activity
 import android.app.Dialog
+import android.os.AsyncTask
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
@@ -16,11 +20,19 @@ import com.example.projectmanagement.firebase.FirestoreClass
 import com.example.projectmanagement.models.Board
 import com.example.projectmanagement.models.User
 import com.example.projectmanagement.utils.Constants
+import org.json.JSONObject
+import java.io.BufferedReader
+import java.io.DataOutputStream
+import java.io.IOException
+import java.io.InputStreamReader
+import java.net.HttpURLConnection
+import java.net.SocketTimeoutException
+import java.net.URL
 
 @Suppress("DEPRECATION")
 class MemberActivity : BaseActivity() {
     private lateinit var mBoardDetails: Board
-    private lateinit var mAssignedMembersList:ArrayList<User>
+    lateinit var mAssignedMemberList:ArrayList<User>
     private var anyChangesMade = false
     private var binding: ActivityMemberBinding? = null
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -49,7 +61,7 @@ class MemberActivity : BaseActivity() {
 
     fun setUpMembersList(list: ArrayList<User>){
 
-        mAssignedMembersList = list
+        mAssignedMemberList = list
 
         hideProgressDialog()
         binding?.rvMembersList?.layoutManager = LinearLayoutManager(this)
@@ -102,10 +114,12 @@ class MemberActivity : BaseActivity() {
 
     fun memberAssignSuccess(user:User){
         hideProgressDialog()
-        mAssignedMembersList.add(user)
+        mAssignedMemberList.add(user)
 
         anyChangesMade = true
-        setUpMembersList(mAssignedMembersList)
+        setUpMembersList(mAssignedMemberList)
+
+        SendNotificationToUserAsyncTask(mBoardDetails.name, user.fcmToken ).execute()
     }
 
     @Deprecated("Deprecated in Java",
@@ -115,5 +129,91 @@ class MemberActivity : BaseActivity() {
             setResult(Activity.RESULT_OK)
         }
         super.onBackPressed()
+    }
+
+    @SuppressLint("StaticFieldLeak")
+    inner class SendNotificationToUserAsyncTask(private val boardName:String, private val token:String)
+        :AsyncTask <Any, Void, String>(){
+        @Deprecated("Deprecated in Java")
+        override fun onPreExecute() {
+            super.onPreExecute()
+            showProgressDialog(resources.getString(R.string.please_wait))
+        }
+        @Deprecated("Deprecated in Java")
+        override fun doInBackground(vararg params: Any?): String {
+            var result:String
+            var connection:HttpURLConnection?=null
+            try {
+                val url = URL(Constants.FCM_BASE_URL)
+                connection = url.openConnection() as HttpURLConnection
+                connection.doOutput = true
+                connection.doInput = true
+                connection.instanceFollowRedirects = false
+                connection.requestMethod = "POST"
+
+                connection.setRequestProperty("Content-Type", "application/json")
+                connection.setRequestProperty("charset", "utf-8")
+                connection.setRequestProperty("Accept", "application/json")
+
+                connection.setRequestProperty(
+                    Constants.FCM_AUTHORIZATION, "${Constants.FCM_KEY}=${Constants.FCM_SERVER_KEY}"
+                )
+
+                connection.useCaches = false
+
+                val wr = DataOutputStream(connection.outputStream)
+                val jsonRequest = JSONObject()
+                val dataObject = JSONObject()
+                dataObject.put(Constants.FCM_KEY_TITLE, "Assigned to the board $boardName")
+                dataObject.put(
+                    Constants.FCM_KEY_MESSAGE,
+                    "You have been assigned to the board by ${mAssignedMemberList[0].name}"
+                )
+                jsonRequest.put(Constants.FCM_KEY_DATA, dataObject)
+                jsonRequest.put(Constants.FCM_KEY_TO, token)
+                wr.writeBytes(jsonRequest.toString())
+                wr.flush()
+                wr.close()
+
+                val httpResult: Int = connection.responseCode
+                if (httpResult == HttpURLConnection.HTTP_OK) {
+                    val inputStream = connection.inputStream
+                    val reader = BufferedReader(
+                        InputStreamReader(inputStream)
+                    )
+                    val sb = StringBuilder()
+                    var line: String?
+                    try {
+                        while (reader.readLine().also { line = it } != null) {
+                            sb.append(line + "\n")
+                        }
+                    } catch (e: IOException) {
+                        e.printStackTrace()
+                    } finally {
+                        try {
+                            inputStream.close()
+                        } catch (e: IOException) {
+                            e.printStackTrace()
+                        }
+                    }
+                    result = sb.toString()
+                } else {
+                    result = connection.responseMessage
+                }
+            }catch (e:SocketTimeoutException){
+                result ="Connection timeout"
+            }catch (e:Exception){
+                result="Error:"+e.message
+            }finally {
+                connection?.disconnect()
+            }
+            return result
+        }
+
+        @Deprecated("Deprecated in Java")
+        override fun onPostExecute(result: String?) {
+            super.onPostExecute(result)
+            hideProgressDialog()
+        }
     }
 }

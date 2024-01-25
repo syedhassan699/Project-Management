@@ -35,11 +35,6 @@ class MyProfileActivity :BaseActivity() {
         bindingMP = ActivityMyProfileBinding.inflate(layoutInflater)
         setContentView(bindingMP?.root)
 
-        window.setFlags(
-            WindowManager.LayoutParams.FLAG_FULLSCREEN,
-            WindowManager.LayoutParams.FLAG_FULLSCREEN
-        )
-
         setupActionBar()
         FirestoreClass().loadUserData(this)
 

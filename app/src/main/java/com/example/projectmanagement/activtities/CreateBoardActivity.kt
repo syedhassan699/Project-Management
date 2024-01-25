@@ -32,10 +32,6 @@ class CreateBoardActivity : BaseActivity() {
         binding = ActivityCreateBoardBinding.inflate(layoutInflater)
         setContentView(binding?.root)
 
-        window.setFlags(
-            WindowManager.LayoutParams.FLAG_FULLSCREEN,
-            WindowManager.LayoutParams.FLAG_FULLSCREEN
-        )
         setupActionBar()
 
         if (intent.hasExtra(Constants.NAME)){
