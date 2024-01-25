@@ -6,7 +6,6 @@ import android.os.Bundle
 import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
-import android.view.WindowManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.projectmanagement.R
 import com.example.projectmanagement.adaptors.TaskListItemAdaptor

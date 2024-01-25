@@ -3,7 +3,6 @@ package com.example.projectmanagement.activtities
 import android.annotation.SuppressLint
 import android.os.Bundle
 import android.text.TextUtils
-import android.view.WindowManager
 import android.widget.Toast
 import com.example.projectmanagement.R
 import com.example.projectmanagement.databinding.ActivitySignUpBinding
