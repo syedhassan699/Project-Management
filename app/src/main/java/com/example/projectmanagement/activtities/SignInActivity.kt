@@ -3,11 +3,9 @@ package com.example.projectmanagement.activtities
 import android.content.Intent
 import android.os.Bundle
 import android.text.TextUtils
-import android.view.WindowManager.LayoutParams.FLAG_FULLSCREEN
 import android.widget.Toast
 import com.example.projectmanagement.R
 import com.example.projectmanagement.databinding.ActivitySignInBinding
-import com.example.projectmanagement.models.User
 import com.google.firebase.auth.FirebaseAuth
 
 @Suppress("DEPRECATION")
@@ -74,7 +72,7 @@ class SignInActivity : BaseActivity() {
             true
         }
     }
-    fun signInSuccess(user:User){
+    fun signInSuccess() {
         hideProgressDialog()
         startActivity(Intent(this,MainActivity::class.java))
     }
